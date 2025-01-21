@@ -24,7 +24,6 @@ void printParam(int nbArg, char **arg)
     }
 }
 
-//marche pas mais flemme
 void age(int nbArg, char **arg)
 {
     typedef struct Person{
@@ -32,23 +31,28 @@ void age(int nbArg, char **arg)
         char prenom[25];
         int age;
     } Person;
-    struct Person *person;
+    
+    Person *person = (Person *)malloc(sizeof(Person));
+    if (!person) {
+        fprintf(stderr, "Erreur d'allocation mémoire sur Personne\n");
+        return;
+    }
+    
     strncpy(person->nom, arg[1], 50);
     strncpy(person->prenom, arg[2], 25);
+    person->age = 0; // default value
     for (int i=3; i<nbArg; i++)
     {
-        if (atoi(arg[i]) > 0 && atoi(arg[i]) < 127)
+        int ageTemp = atoi(arg[i]);
+        if (ageTemp > 0 && ageTemp < 127)
         {
-            person->age = atoi(arg[i]); break;
-        }
-        if (i == nbArg-1)
-        {
-            person->age = 0;
+            person->age = ageTemp; break;
         }
     }
     printf("Nom : %s", person->nom);
     printf("Prenom : %s", person->prenom);
     printf("Age : %d", person->age);
+    free(person);
 }
 
 
@@ -237,6 +241,10 @@ void soloQ(int nbArg, char **arg, Queue *q)
         temp = temp->next;
         dequeue(q);
     }
+    /* while (!isEmpty(q)) {
+        int value = dequeue(q);
+        printf("%d ", value);
+    } */
     printf("\n");
 }
 
