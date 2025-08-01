@@ -26,33 +26,29 @@ void printParam(int nbArg, char **arg)
 
 void age(int nbArg, char **arg)
 {
-    typedef struct Person{
+    typedef struct {
         char nom[50];
         char prenom[25];
         int age;
     } Person;
-    
-    Person *person = (Person *)malloc(sizeof(Person));
-    if (!person) {
-        fprintf(stderr, "Erreur d'allocation mémoire sur Personne\n");
-        return;
-    }
-    
-    strncpy(person->nom, arg[1], 50);
-    strncpy(person->prenom, arg[2], 25);
-    person->age = 0; // default value
-    for (int i=3; i<nbArg; i++)
-    {
-        int ageTemp = atoi(arg[i]);
-        if (ageTemp > 0 && ageTemp < 127)
-        {
-            person->age = ageTemp; break;
+
+    Person person;
+    strncpy(person.nom, arg[1], 49);
+    person.nom[49] = '\0';
+    strncpy(person.prenom, arg[2], 24);
+    person.prenom[24] = '\0';
+
+    person.age = 0;
+    for (int i = 3; i < nbArg; i++) {
+        int a = atoi(arg[i]);
+        if (a > 0 && a < 127) {
+            person.age = a;
+            break;
         }
     }
-    printf("Nom : %s", person->nom);
-    printf("Prenom : %s", person->prenom);
-    printf("Age : %d", person->age);
-    free(person);
+    printf("Nom : %s\n", person.nom);
+    printf("Prenom : %s\n", person.prenom);
+    printf("Age : %d\n", person.age);
 }
 
 
